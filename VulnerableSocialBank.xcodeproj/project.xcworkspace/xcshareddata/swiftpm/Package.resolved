@@ -1,0 +1,15 @@
+{
+  "originHash" : "8f1d03ee9fc5472d4f57b23d7036c765e7efc01a72d66760209ea0a49b11e99a",
+  "pins" : [
+    {
+      "identity" : "toasterplus",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ProkofievAndrii/ToasterPlus",
+      "state" : {
+        "revision" : "51e79c99ff6cf9ee912e0f96656978be6857e0cc",
+        "version" : "1.0.2"
+      }
+    }
+  ],
+  "version" : 3
+}

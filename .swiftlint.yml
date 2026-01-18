@@ -1,0 +1,63 @@
+disabled_rules:
+  - trailing_whitespace
+  - line_length
+
+# Custom Security Rules (OWASP Mobile Top 10)
+custom_rules:
+
+  # M1: Improper Credential Usage
+  # Detects potential hardcoded secrets or API keys in source code
+  hardcoded_secrets:
+    name: "Hardcoded Secrets"
+    regex: "(?i)(api_key|secret|password|token|bearer|access_key)\\s*=\\s*\"[A-Za-z0-9+/=]{16,}\""
+    message: "Potential hardcoded secret detected. Use Keychain or Environment Variables instead (OWASP M1)."
+    severity: error
+
+  # M5: Insecure Communication
+  # Detects use of unencrypted HTTP protocol
+  insecure_http_connection:
+    name: "Insecure HTTP Connection"
+    regex: "http://[a-zA-Z0-9]"
+    match_kinds:
+      - string
+    message: "Insecure HTTP protocol detected. Use HTTPS to prevent MITM attacks (OWASP M5)."
+    severity: error
+
+  # M6: Inadequate Privacy Controls (Insecure Logging)
+  # Detects use of print() which can leak sensitive data into system logs
+  insecure_logging:
+    name: "Insecure Logging"
+    regex: "\\bprint\\("
+    message: "Avoid using print() in production code as it may leak PII/sensitive data to console logs. Use os_log with private privacy levels (OWASP M6)."
+    severity: warning
+
+  # M8: Security Misconfiguration
+  # UIWebView is deprecated and has known security flaws
+  deprecated_uiwebview:
+    name: "Deprecated UIWebView"
+    regex: "UIWebView"
+    message: "UIWebView is insecure and deprecated. Use WKWebView with restricted configurations instead (OWASP M8)."
+    severity: error
+
+  # M9: Insecure Data Storage
+  # UserDefaults is often misused for sensitive data storage
+  insecure_user_defaults:
+    name: "Insecure Data Storage in UserDefaults"
+    regex: "UserDefaults\\.standard\\.set\\("
+    message: "Sensitive data should not be stored in UserDefaults as it is stored in plaintext. Use Keychain for tokens and credentials (OWASP M9)."
+    severity: warning
+
+  # M10: Insufficient Cryptography
+  # Detects use of weak hashing algorithms
+  weak_crypto_algorithms:
+    name: "Weak Cryptographic Algorithms"
+    regex: "(?i)(CC_MD5|CC_SHA1|CommonCrypto\\.md5)"
+    message: "MD5 and SHA1 are cryptographically broken. Use SHA-256 or CryptoKit (SHA256.hash) for secure hashing (OWASP M10)."
+    severity: error
+
+  # SwiftUI Architectural Safety
+  state_should_be_private:
+    name: "SwiftUI State Property Not Private"
+    regex: "@State\\s+var"
+    message: "@State properties should be private to ensure data encapsulation and safety within the View."
+    severity: error
